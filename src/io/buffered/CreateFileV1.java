@@ -13,7 +13,7 @@ public class CreateFileV1 {
         long startTime = System.currentTimeMillis();
 
         for (int i = 0; i < FILE_SIZE; i++) {
-            fos.write(1);
+            fos.write(1); //FILE_SIZE의 값은 10MB이므로, 10MB만큼 1을 쓴다.
         }
         fos.close();
 
