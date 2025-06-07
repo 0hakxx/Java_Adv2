@@ -36,7 +36,6 @@ public class ServerV2 {
             output.writeUTF(toSend);
             log("client <- server: " + toSend);
         }
-
         // 자원 정리
         log("연결 종료: " + socket);
         input.close();

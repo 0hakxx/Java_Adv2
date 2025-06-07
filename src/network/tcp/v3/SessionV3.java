@@ -16,7 +16,7 @@ public class SessionV3 implements Runnable {
     }
 
     @Override
-    public void run() {
+    public void run() { //별도의 스레드로 실행
         try {
             DataInputStream input = new DataInputStream(socket.getInputStream());
             DataOutputStream output = new DataOutputStream(socket.getOutputStream());

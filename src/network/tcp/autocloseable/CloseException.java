@@ -1,8 +1,8 @@
-package network.tcp.autocloseable;
+    package network.tcp.autocloseable;
 
-public class CloseException extends Exception {
+    public class CloseException extends Exception {
 
-    public CloseException(String message) {
-        super(message);
+        public CloseException(String message) {
+            super(message);
+        }
     }
-}
