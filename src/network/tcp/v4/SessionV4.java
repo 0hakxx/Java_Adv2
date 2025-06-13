@@ -18,7 +18,7 @@ public class SessionV4 implements Runnable {
 
     @Override
     public void run() {
-        // finally 블록에서 변수에 접근해야 한다. 따라서 try 블록 안에서 선언할 수 없다.
+        // finally 블록에서 변수에 접근해야 한다. 따라서 try 블록 안에서 선언할 수 없어서 지역 변수로 할당
         DataInputStream input = null;
         DataOutputStream output = null;
 

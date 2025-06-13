@@ -16,7 +16,7 @@ public class ClientV4 {
     public static void main(String[] args) throws IOException {
         log("클라이언트 시작");
 
-        // finally 블록에서 변수에 접근해야 한다. 따라서 try 블록 안에서 선언할 수 없다.
+        // finally 블록에서 변수에 접근해야 한다. 따라서 try 블록 안에서 선언할 수 없어서 지역 변수로 할당
         Socket socket = null;
         DataInputStream input = null;
         DataOutputStream output = null;
