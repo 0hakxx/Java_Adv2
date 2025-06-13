@@ -10,7 +10,7 @@ public class ResourceCloseMainV4 {
 
             Throwable[] suppressed = e.getSuppressed();
             for (Throwable throwable : suppressed) {
-                System.out.println("suppressedEx = " + throwable);
+                System.out.println("sup pressedEx = " + throwable);
             }
 
             throw new RuntimeException(e);
