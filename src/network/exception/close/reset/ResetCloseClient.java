@@ -19,7 +19,7 @@ public class ResetCloseClient {
         // client <- server: FIN
         Thread.sleep(1000); // 서버가 close() 호출할 때 까지 잠시 대기
 
-        // client -> server: PUSH[1]
+        // 원래는 client -> server: FIN을 보내려했으나 write으로 client -> server: PUSH[1]
         output.write(1);
 
         // client <- server: RST

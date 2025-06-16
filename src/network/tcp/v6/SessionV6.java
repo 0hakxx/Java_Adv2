@@ -28,7 +28,6 @@ public class SessionV6 implements Runnable {
     public void run() {
         try {
             while (true) {
-                // 클라이언트로부터 문자 받기
                 String received = input.readUTF();
                 log("client -> server: " + received);
 
@@ -36,7 +35,6 @@ public class SessionV6 implements Runnable {
                     break;
                 }
 
-                // 클라이언트에게 문자 보내기
                 String toSend = received + " World!";
                 output.writeUTF(toSend);
                 log("client <- server: " + toSend);
@@ -49,13 +47,13 @@ public class SessionV6 implements Runnable {
         }
     }
 
-    // 세션 종료시, 서버 종료시 동시에 호출될 수 있다.
-    public synchronized void close() {
-        if (closed) {
-            return;
+    public synchronized void close() { // 여러 스레드에서 동시에 호출될 경우를 대비해 동기화 (synchronized)
+        if (closed) { // 이미 세션이 닫혔으면
+            return; // 아무것도 하지 않고 즉시 종료 (중복 호출 방지)
         }
-        closeAll(socket, input, output); // shutdown
-        closed = true;
+        // SocketCloseUtil.closeAll() 메서드를 사용하여 소켓과 스트림을 안전하게 닫음
+        closeAll(socket, input, output); // 실제 자원 해제 로직 (다른 유틸리티에 위임)
+        closed = true; // 세션이 닫혔음을 표시
         log("연결 종료: " + socket);
     }
 }
