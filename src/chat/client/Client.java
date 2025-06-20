@@ -32,6 +32,13 @@ public class Client {
         input = new DataInputStream(socket.getInputStream());
         output = new DataOutputStream(socket.getOutputStream());
 
+        /* ✅중요
+        클라이언트는 콘솔의 입력을 받는 것과 서버로부터 오는 메시지를 콘솔에 출력하는 것을 분리해야한다.
+        채팅은 실시간으로 대화를 주고받아야 한다.
+        사용자의 콘솔 입력이 있을 때까지 무한정 대기하여 실시간으로 다른 사용자가 보낸 메시지를 콘솔에 출력할 수 없기 때문이다.
+        ✅Tip
+        객체지향 설계 코드 작성 시 스레드를 먼저 작성하면 편리함.
+        */
         readHandler = new ReadHandler(input, this);
         writeHandler = new WriteHandler(output, this);
         Thread readThread = new Thread(readHandler, "readHandler");

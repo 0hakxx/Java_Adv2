@@ -20,8 +20,8 @@ public class ReadHandler implements Runnable {
     public void run() {
 
         try {
-            while (true) {
-                String received = input.readUTF();
+            while (true) { // 서버로부터 오는 메시지를 계속 받기 위한 무한 루프
+                String received = input.readUTF(); // 블로킹
                 System.out.println(received);
             }
         } catch (IOException e) {
@@ -36,7 +36,6 @@ public class ReadHandler implements Runnable {
             return;
         }
 
-        // 종료 로직 필요시 작성
         closed = true;
         log("readHandelr 종료");
     }

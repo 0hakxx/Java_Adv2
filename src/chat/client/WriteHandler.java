@@ -46,6 +46,7 @@ public class WriteHandler implements Runnable {
                     output.writeUTF("/message" + DELIMITER + toSend);
                 }
             }
+            // close() 메서드의 system.in.close() 가 호출되면 scanner.nextLine()이 호출될 때 더 이상 읽을 수 있는 입력이 없으므로 NoSuchElementException 발생을 예외처리
         } catch (IOException | NoSuchElementException e) {
             log(e);
         } finally {
@@ -68,7 +69,7 @@ public class WriteHandler implements Runnable {
         }
 
         try {
-            System.in.close(); // Scanner 입력 중지 (사용자의 입력을 닫음)
+            System.in.close();
         } catch (IOException e) {
             log(e);
         }
