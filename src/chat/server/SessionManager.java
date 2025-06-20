@@ -1,16 +1,11 @@
 package chat.server;
 
-import java.io.IOException; // 입출력 관련 예외 클래스
-import java.util.ArrayList; // 동적 배열 리스트를 위한 클래스
-import java.util.List; // 리스트 인터페이스
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static util.MyLogger.log; // MyLogger 유틸리티에서 log 메서드를 정적 임포트
 
-/**
- * 활성 클라이언트 세션을 관리하는 클래스입니다.
- * 세션 추가, 제거, 모든 세션에 메시지 전송, 모든 세션 닫기 등의 기능을 제공합니다.
- * 모든 메서드는 스레드 안전성을 위해 synchronized 키워드를 사용합니다.
- */
 public class SessionManager {
 
     // 현재 활성화된 모든 세션을 저장하는 리스트

@@ -6,10 +6,6 @@ import java.net.Socket;
 
 import static util.MyLogger.log; // MyLogger 유틸리티에서 log 메서드를 정적 임포트
 
-/**
- * Chat 서버의 메인 클래스
- * 클라이언트 연결을 수락하고 각 연결에 대한 세션을 관리합니다.
- */
 public class Server {
     private final int port; // 서버가 리스닝할 포트 번호
     private final CommandManager commandManager; // 클라이언트 명령을 처리하는 매니저
@@ -32,10 +28,7 @@ public class Server {
         running(); // 서버가 계속해서 클라이언트 연결을 수락하도록 하는 메서드 호출
     }
 
-    /**
-     * JVM 종료 시 실행될 셧다운 훅을 등록합니다.
-     * 이 훅은 서버 소켓과 모든 클라이언트 세션을 안전하게 닫습니다.
-     */
+    // JVM 종료 시 실행될 셧다운 훅을 등록
     private void addShutdownHook() {
         // ShutdownHook 인스턴스 생성, 서버 소켓과 세션 매니저를 인자로 전달
         ShutdownHook target = new ShutdownHook(serverSocket, sessionManager);
@@ -56,44 +49,30 @@ public class Server {
             }
         } catch (IOException e) {
             // 서버 소켓이 닫히거나 입출력 오류가 발생할 경우 예외 처리
-            log("서버 소캣 종료: " + e.getMessage()); // 서버 소켓 종료 로그
+            log("서버 소캣 종료: " + e); // 서버 소켓 종료 로그
         }
     }
 
-    /**
-     * JVM 종료 시 실행될 Runnable 구현체입니다.
-     * 이 클래스는 서버 소켓과 모든 활성 세션을 안전하게 닫는 역할을 합니다.
-     */
     static class ShutdownHook implements Runnable {
         private final ServerSocket serverSocket; // 닫을 서버 소켓
         private final SessionManager sessionManager; // 관리 중인 세션을 닫을 세션 매니저
 
-        /**
-         * ShutdownHook 클래스의 생성자입니다.
-         *
-         * @param serverSocket 닫을 ServerSocket 인스턴스
-         * @param sessionManager 모든 세션을 닫을 SessionManager 인스턴스
-         */
         public ShutdownHook(ServerSocket serverSocket, SessionManager sessionManager) {
             this.serverSocket = serverSocket;
             this.sessionManager = sessionManager;
         }
 
-        /**
-         * 셧다운 훅 스레드가 실행될 때 호출되는 메서드입니다.
-         * 모든 세션을 닫고 서버 소켓을 닫습니다.
-         */
         @Override
         public void run() {
-            log("shutdownHook 실행"); // 셧다운 훅 실행 로그
+            log("shutdownHook 실행");
             try {
                 sessionManager.closeAll(); // 모든 활성 세션 닫기
                 serverSocket.close(); // 서버 소켓 닫기
 
-                Thread.sleep(1000); // 자원 정리를 위한 1초 대기 (선택 사항이지만 안전을 위해 추가)
+                Thread.sleep(1000); // 자원 정리를 위한 1초 대기
             } catch (Exception e) {
                 e.printStackTrace(); // 예외 발생 시 스택 트레이스 출력
-                System.out.println("e = " + e.getMessage()); // 예외 메시지 출력
+                System.out.println("e = " + e); // 예외 메시지 출력
             }
         }
     }
