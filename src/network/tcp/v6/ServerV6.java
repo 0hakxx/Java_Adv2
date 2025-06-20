@@ -12,7 +12,7 @@ public class ServerV6 {
 
     public static void main(String[] args) throws IOException {
         log("서버 시작");
-        // 클라이언트 세션들을 관리하는 SessionManagerV6 객체 생성. 서버 종료 시 모든 클라이언트 소켓을 안전하게 닫기 위함이다.
+        // 서버 종료 시 모든 클라이언트 소켓을 안전하게 닫기 위해 클라이언트 세션들을 관리하는 SessionManagerV6
         SessionManagerV6 sessionManager = new SessionManagerV6();
         ServerSocket serverSocket = new ServerSocket(PORT);
         log("서버 소켓 시작 - 리스닝 포트: " + PORT);
@@ -21,8 +21,12 @@ public class ServerV6 {
         ShutdownHook shutdownHook = new ShutdownHook(serverSocket, sessionManager);
         Runtime.getRuntime().addShutdownHook(new Thread(shutdownHook, "shutdown"));
 
+        /*serverSocket.accept() 메서드가 클라이언트 무한정으로 연결을 기다리며 블로킹 상태에 있을 때,
+        ShutdownHook 스레드에서 해당 serverSocket 객체의 close() 메서드를 호출하면,
+        대기 중이던 accept() 메서드는 강제로 중단되어 SocketException(IOException의 하위 클래스)을 발생하므로 예외처리
+         */
         try {
-            while (true) {
+            while (true) { // 서버가 계속해서 새로운 클라이언트 연결을 받아들이기 위해 무한대기 위한 루프
                 Socket socket = serverSocket.accept(); // 블로킹
                 log("소켓 연결: " + socket);
 

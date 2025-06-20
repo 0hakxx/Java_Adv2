@@ -27,9 +27,12 @@ public class SessionV6 implements Runnable { // Runnable 인터페이스를 구�
 
     @Override
     public void run() {
+        /*ShutdownHook 스레드가 실행되어 sessionManager.closeAll() 메서드를 호출한다
+        이 때 socket.close()가 실행되어 소켓을 닫을텐데, run() 메서드를 실행중인 input.readUTF()에서 데이터를 기다리며 블로킹 상태에서
+        IOException의 하위 클래스인 SocketException이 발생하므로 예외처리한다.*/
         try {
-            while (true) {
-                String received = input.readUTF();
+            while (true) { // 이미 연결된 하나의 클라이언트와 계속해서 메시지를 주고받기 위한 루프
+                String received = input.readUTF(); // Blocking
                 log("client -> server: " + received);
 
                 if (received.equals("exit")) {
@@ -53,7 +56,7 @@ public class SessionV6 implements Runnable { // Runnable 인터페이스를 구�
      * ✅ try-with-resources를 사용하지 않는 이유:
      *    - try-with-resources를 쓰면 자원이 자동으로 닫히기 때문에 편리
      *    - 하지만 `SessionManager`가 서버 종료 시 모든 세션의 자원을 직접 닫는 경우도 있으므로 `close()` 메서드를 따로 생성하여 같은 메서드를 쓰기 위함.
-     * ✅ 즉, 두 곳에서 호출될 수 있기 때문이다.
+     * ✅ 즉, 두 곳에서 호출될 수 있기 때문에 try-with-resource를 사용하지 않는다.
      *    1. 클라이언트가 연결을 종료한 경우 → finally 블록에서 호출
      *    2. 서버 전체가 종료되는 경우 → SessionManager.clossAll() 에서 모든 세션을 순회하며 호출
      * ✅ 세션과 서버가 동시에 만약 종료되면 close()가 두 번 호출될 수 있으므로

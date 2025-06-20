@@ -39,6 +39,10 @@ public class ClientV6 {
                 log("client <- server: " + received);
             }
         } catch (IOException e) {
+            // 서버가 close()를 호출하여 FIN 패킷을 보내면,
+            // 클라이언트 측의 input.readUTF() 또는 output.writeUTF() 호출 시
+            // IOException (예: EOFException, SocketException 등)이 발생
+            // package network.exception.close.normal 코드 참고
             log(e);
         }
     }

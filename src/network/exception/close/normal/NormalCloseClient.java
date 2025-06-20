@@ -10,7 +10,7 @@ public class NormalCloseClient {
 
     public static void main(String[] args) throws IOException {
         Socket socket = new Socket("localhost", 12345);
-        log("소캣 연결: " + socket); // 소켓 연결 정보를 로그로 출력한다.
+        log("소캣 연결: " + socket);
 
         InputStream input = socket.getInputStream();
 
@@ -21,15 +21,14 @@ public class NormalCloseClient {
         log("연결 종료: " + socket.isClosed());
     }
     private static void readByInputStream(InputStream input, Socket socket) throws IOException {
-        // InputStream에서 한 바이트를 읽는다.
         // 서버가 연결을 정상적으로 종료하고 FIN 패킷을 보냈다면, read()는 -1을 반환한다.
         int read = input.read();
-        log("read = " + read); // 읽은 값을 로그로 출력 (바이트 값이거나 -1)
+        log("read = " + read);
 
         // read() 메서드가 -1을 반환하면, 서버가 스트림을 정상적으로 닫았음을 의미한다.
         if (read == -1) {
-            input.close(); // InputStream을 닫는다.
-            socket.close(); // 소켓을 닫는다. (소켓과 관련된 모든 스트림도 같이 닫힌다)
+            input.close();
+            socket.close();
         }
     }
 
@@ -39,12 +38,12 @@ public class NormalCloseClient {
         BufferedReader br = new BufferedReader(new InputStreamReader(input));
         // 한 라인을 읽는다. 서버가 스트림을 정상적으로 닫고 FIN 패킷을 보냈다면, readLine()은 null을 반환한다.
         String readString = br.readLine();
-        log("readString = " + readString); // 읽은 문자열을 로그로 출력
+        log("readString = " + readString);
 
         // readLine() 메서드가 null을 반환하면, 서버가 스트림을 정상적으로 닫았음을 의미한다.
         if (readString == null) {
-            br.close(); // BufferedReader를 닫는다.
-            socket.close(); // 소켓을 닫는다.
+            br.close();
+            socket.close();
         }
     }
 
@@ -52,15 +51,14 @@ public class NormalCloseClient {
         DataInputStream dis = new DataInputStream(input);
 
         try {
-            // 서버가 writeUTF()로 보낸 문자열을 읽으려고 시도한다.
             // 만약 서버가 데이터를 보내기 전에 FIN 패킷을 보냈다면, EOFException이 발생한다.
             dis.readUTF();
         } catch (EOFException e) {
             // EOFException은 "End Of File"을 의미하며, 서버가 FIN 패킷을 보내고 연결을 종료했음을 나타낸다.
-            log(e); // 예외 정보를 로그로 출력한다.
+            log(e);
         } finally {
-            dis.close(); // DataInputStream을 닫는다.
-            socket.close(); // 소켓을 닫는다.
+            dis.close();
+            socket.close();
         }
     }
 }
