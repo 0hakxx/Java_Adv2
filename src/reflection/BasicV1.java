@@ -10,15 +10,18 @@ public class BasicV1 {
         // 1. 클래스에서 찾기
         Class<BasicData> basicDataClass1 = BasicData.class;
         System.out.println("basicDataClass1 = " + basicDataClass1);
+        System.out.println("------------------");
 
         // 2. 인스턴스에서 찾기
         BasicData basicInstance = new BasicData();
         Class<? extends BasicData> basicDataClass2 = basicInstance.getClass();
         System.out.println("basicDataClass2 = " + basicDataClass2);
+        System.out.println("------------------");
 
         // 3. 문자로 찾기
         String className = "reflection.data.BasicData"; // 패키지명 주의
         Class<?> basicDataClass3 = Class.forName(className);
         System.out.println("basicDataClass3 = " + basicDataClass3);
+        System.out.println("------------------");
     }
 }

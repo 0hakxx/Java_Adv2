@@ -10,7 +10,7 @@ public class MethodV3 {
 
     public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("호출 메서드: ");
+        System.out.print("호출 메서드(add or sub): ");
         String methodName = scanner.nextLine();
 
         System.out.print("숫자1: ");
