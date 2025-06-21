@@ -10,7 +10,7 @@ public class CommandManagerV4 implements CommandManager {
 
     private static final String DELIMITER = "\\|";
     private final Map<String, Command> commands = new HashMap<>();
-    private final Command defaultCommand = new DefaultCommand();
+    private DefaultCommand defaultCommand = new DefaultCommand();
 
     public CommandManagerV4(SessionManager sessionManager) {
         commands.put("/join", new JoinCommand(sessionManager));
@@ -23,10 +23,14 @@ public class CommandManagerV4 implements CommandManager {
     @Override
     public void execute(String totalMessage, Session session) throws IOException {
         String[] args = totalMessage.split(DELIMITER);
-        String key = args[0];
 
-        // NullObject Pattern
+        // 명령어 키 추출 (예: "/join")
+        String key = args[0];
+        // (예. 키가 "/joing" 이면 JoinCommand 객체 반환)
+        // 키를 찾을 수 없다면 DefaultCommand 객체 반환 => NullObject Pattern
         Command command = commands.getOrDefault(key, defaultCommand);
+
+        // (예."JoinCommand" 클래스의 execute() 실행)
         command.execute(args, session);
     }
 }

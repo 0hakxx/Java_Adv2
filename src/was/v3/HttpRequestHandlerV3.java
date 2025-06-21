@@ -96,11 +96,13 @@ public class HttpRequestHandlerV3 implements Runnable {
     // "/search?q=hello"
     // GET /search?q=hello HTTP/1.1
     private void search(PrintWriter writer, String requestString) {
+        // 요청 문자열 (requestString)에서 'q='가 시작하는 인덱스 찾는다.
         int startIndex = requestString.indexOf("q=");
+        // 'q=' 다음의 실제 쿼리 파라미터가 끝나는 지점(다음 공백)을 찾는다.
+        // 'q='의 길이(2)를 더하여 실제 쿼리 값의 시작 위치부터 검색
         int endIndex = requestString.indexOf(" ", startIndex + 2);
-        String query = requestString.substring(startIndex + 2, endIndex);
-        String decode = URLDecoder.decode(query, UTF_8);
-
+        String query = requestString.substring(startIndex + 2, endIndex); // 예: "hello"이지만 URL 인코딩된 상태(%ED%95%9C%EA%B8%80)
+        String decode = URLDecoder.decode(query, UTF_8); // // 추출된 'query' 문자열을 URL 디코딩하여 원래의 값으로 변환(hello)
         writer.println("HTTP/1.1 404 Not Found");
         writer.println("Content-Type: text/html; charset=UTF-8");
         writer.println();

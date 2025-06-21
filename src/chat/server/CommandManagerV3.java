@@ -22,13 +22,18 @@ public class CommandManagerV3 implements CommandManager {
     @Override
     public void execute(String totalMessage, Session session) throws IOException {
         String[] args = totalMessage.split(DELIMITER);
-        String key = args[0];
 
+        // 명령어 키 추출 (예: "/join")
+        String key = args[0];
+        // (예. 키가 "/joing" 이면 JoinCommand 객체 반환)
         Command command = commands.get(key);
+
+        //키를 찾을 수 없다면 처리할 수 없는 명령어
         if (command == null) {
             session.send("처리할 수 없는 명령어 입니다: " + totalMessage);
             return;
         }
+        // (예."JoinCommand" 클래스의 execute() 실행)
         command.execute(args, session);
     }
 }
