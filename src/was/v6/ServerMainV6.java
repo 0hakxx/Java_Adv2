@@ -19,6 +19,7 @@ public class ServerMainV6 {
 
         ServletManager servletManager = new ServletManager();
         servletManager.setDefaultServlet(reflectionServlet);
+        // /와 favicon.ico는 메서드 이름이 /(), favicon.ico() 으로 사용할 수 없으므로 따로 add
         servletManager.add("/", new HomeServlet());
         servletManager.add("/favicon.ico", new DiscardServlet());
 
