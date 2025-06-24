@@ -13,5 +13,6 @@ public @interface AnnoElement {
     String[] tags() default {};
 
     //MyLogger data(); // 다른 타입은 적용X
+    // 클래스 타입만 메타데이터로 허용됨
     Class<? extends MyLogger> annoData() default MyLogger.class;
 }
